@@ -1,0 +1,134 @@
+{
+  "materias": [
+    {
+      "id": "f5fr",
+      "name": "Física II",
+      "code": "FIS201",
+      "seccion": "B",
+      "horarios": [
+        {
+          "dia": "Martes",
+          "hora_inicio": "10:00",
+          "hora_fin": "12:00"
+        },
+        {
+          "dia": "Jueves",
+          "hora_inicio": "10:00",
+          "hora_fin": "12:00"
+        }
+      ]
+    },
+    {
+      "id": "fds4",
+      "name": "Química General",
+      "code": "QUI301",
+      "seccion": "C",
+      "horarios": [
+        {
+          "dia": "Lunes",
+          "hora_inicio": "12:00",
+          "hora_fin": "14:00"
+        },
+        {
+          "dia": "Miércoles",
+          "hora_inicio": "12:00",
+          "hora_fin": "14:00"
+        }
+      ]
+    },
+    {
+      "id": "8e48",
+      "name": "hoisd",
+      "code": "hod005",
+      "seccion": "sdg",
+      "horarios": [
+        {
+          "dia": "Martes",
+          "hora_inicio": "13:10",
+          "hora_fin": "14:20"
+        }
+      ]
+    }
+  ],
+  "usuarios": [
+    {
+      "id": "4893",
+      "username": "ert",
+      "password": "1234poiu",
+      "email": "h.ww@g.vl",
+      "rut": "12.765.564-k",
+      "img": "assets/img/users/images.jpg",
+      "clases": [],
+      "isactive": true,
+      "isAlumno": true,
+      "isProfesor": false
+    },
+    {
+      "id": "08b5",
+      "username": "fdw",
+      "password": "1111pppp",
+      "email": "h.ww@g.vl",
+      "rut": "12.765.564-k",
+      "img": "assets/img/users/images.jpg",
+      "clases": [
+        {
+          "name": "Física II",
+          "code": "FIS201",
+          "seccion": "B"
+        },
+        {
+          "name": "Química General",
+          "code": "QUI301",
+          "seccion": "C"
+        }
+      ],
+      "isactive": true,
+      "isAlumno": false,
+      "isProfesor": true
+    },
+    {
+      "id": "505e",
+      "username": "emanuel",
+      "password": "pppp1111",
+      "email": "e.manu@gmail.com",
+      "rut": "12.543.745-6",
+      "img": "assets/img/users/images.jpg",
+      "clases": [],
+      "isactive": true,
+      "isAlumno": false,
+      "isProfesor": true
+    },
+    {
+      "id": "14fa",
+      "username": "pedro",
+      "password": "12345ooo",
+      "email": "g@gmail.com",
+      "rut": "55.333.555-3",
+      "clases": [
+        {
+          "name": "Física II",
+          "code": "FIS201",
+          "seccion": "B"
+        }
+      ],
+      "isactive": true,
+      "isAlumno": false,
+      "isProfesor": true
+    }
+  ],
+  "Qr": [],
+  "resp": [
+    {
+      "id": "08b5",
+      "username": "fdw",
+      "password": "1111pppp",
+      "email": "h.ww@g.vl",
+      "rut": "12.765.564-k",
+      "img": "assets/img/users/images.jpg",
+      "clases": [],
+      "isactive": true,
+      "isAlumno": false,
+      "isProfesor": true
+    }
+  ]
+}

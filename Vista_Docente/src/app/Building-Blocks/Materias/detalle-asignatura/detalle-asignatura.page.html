@@ -1,0 +1,87 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/gestion-asignatura" text="" color="dark"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>detalle-asignatura</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content [fullscreen]="true">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Información de Asignatura</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <!-- Mostramos asignatura -->
+      <ion-item>
+        <ion-label>
+          <h2>Nombre de asignatura:</h2>
+          <p>{{ materia.name }}</p>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <h2>Codigo:</h2>
+          <p>{{ materia.code }}</p>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <h2>Seccion:</h2>
+          <p>{{ materia.seccion }}</p>
+        </ion-label>
+      </ion-item>
+
+      <div style="display: flex; justify-content: space-around; align-items: center; gap: 10px;">
+
+        <ion-button (click)="VerDatos(materia)" color="warning" fill="solid" shape="round" expand="block"
+          style="flex: 1;">
+          <ion-icon name="pencil-sharp"></ion-icon>
+          Modificar
+        </ion-button>
+
+        <ion-button (click)="EliminarAsignarura()" color="danger" fill="solid" shape="round" expand="block"
+          style="flex: 1;">
+          <ion-icon name="trash-sharp"></ion-icon>
+          Eliminar
+        </ion-button>
+
+      </div>
+
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Mostrar los horarios -->
+  <ion-card>
+    <ion-card-header>
+      <div style="display: flex; justify-content: space-around; align-items: center; gap: 10px;">
+
+        <ion-card-title>Horarios de asignaturas</ion-card-title>
+
+        <ion-button (click)="AddHorario()" slot="end" fill="clear" shape="round">
+          <ion-icon name="add-circle-outline" size="large"></ion-icon>
+        </ion-button>
+
+      </div>
+    </ion-card-header>
+    <ion-card-content>
+      <!-- Si no hay horarios, mostrar un mensaje -->
+      <div *ngIf="materia.horarios.length === 0">
+        <p>No hay horarios disponibles</p>
+      </div>
+
+      <!-- Lista de horarios -->
+      <ion-list *ngIf="materia.horarios.length > 0">
+        <ion-item *ngFor="let horario of materia.horarios">
+          <ion-label>
+            <h2>Día: {{ horario.dia }}</h2>
+            <p>Horario: {{ horario.hora_inicio }} - {{ horario.hora_fin }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

@@ -1,0 +1,56 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/gestionar-asignaturas" text="" color="dark"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Añadir asignatura</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card>
+    <ion-card-content>
+      <form [formGroup]="materiaForm">
+
+        <ion-item>
+          <ion-input 
+            type="text" 
+            placeholder="Nombre Asignatura"
+            label="Asignatura" 
+            labelPlacement="floating"
+            formControlName="name">
+          </ion-input>
+        </ion-item>
+
+
+        <ion-item>
+          <ion-input 
+            type="text" 
+            placeholder="Ingrese el código"
+            label="Código" 
+            labelPlacement="floating"
+            formControlName="code">
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input 
+            type="text" 
+            placeholder="Ingrese la sección"
+            label="Sección" 
+            labelPlacement="floating"
+            formControlName="seccion">
+          </ion-input>
+        </ion-item>
+
+        <ion-button (click)="CrearMateria()"
+          expand="block"  
+          color="secondary"
+          shape="round">
+          Crear
+        </ion-button>
+
+      </form>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

@@ -1,0 +1,82 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/menu-inicio" text="" color="dark"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Formulario de inicio de sesión -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Inicio de Sesión</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <form [formGroup]="formularioLogin">
+        <!-- Campo para Email o Nombre de Usuario -->
+        <ion-item>
+          <ion-input
+            type="text"
+            label="Usuario / Email"
+            labelPlacement="floating"
+            formControlName="identifier"
+            placeholder="Ingrese su email o username"
+            fill="solid">
+          </ion-input>
+        </ion-item>
+
+        <!-- Validación para Email o Nombre de Usuario -->
+        <div *ngIf="formularioLogin.get('identifier')?.invalid && (formularioLogin.get('identifier')?.dirty || formularioLogin.get('identifier')?.touched)">
+          <ion-text color="danger">
+            <p *ngIf="formularioLogin.get('identifier')?.hasError('required')">
+              El campo es obligatorio.
+            </p>
+          </ion-text>
+        </div>
+
+        <!-- Campo para Contraseña -->
+        <ion-item>
+          <ion-input
+            type="password"
+            label="Contraseña"
+            labelPlacement="floating"
+            formControlName="password"
+            placeholder="Ingrese su contraseña"
+            fill="solid">
+          </ion-input>
+        </ion-item>
+
+        <!-- Validación para Contraseña -->
+        <div *ngIf="formularioLogin.get('password')?.invalid && (formularioLogin.get('password')?.dirty || formularioLogin.get('password')?.touched)">
+          <ion-text color="danger">
+            <p *ngIf="formularioLogin.get('password')?.hasError('required')">
+              La contraseña es obligatoria.
+            </p>
+            <p *ngIf="formularioLogin.get('password')?.hasError('minlength')">
+              La contraseña debe tener al menos 8 caracteres.
+            </p>
+          </ion-text>
+        </div>
+
+        <!-- Botón para recordar contraseña -->
+        <div class="extra_form">
+          <ion-button size="small" fill="clear" color="medium">
+            Olvidé mi contraseña
+          </ion-button>
+        </div>
+
+        <!-- Botón de Ingresar -->
+        <ion-button
+          expand="block"
+          fill="outline"
+          color="secondary"
+          [disabled]="formularioLogin.invalid"
+          (click)="iniciarSesion()">
+          Ingresar
+        </ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

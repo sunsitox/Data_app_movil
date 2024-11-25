@@ -1,0 +1,32 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tab-inicial/iniciar"
+      text=""
+      color="dark"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Escaner QR</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <br>
+  <div class="container">
+    
+    <div class="camera-preview">
+      <!-- mensaje para cuando no se detecta ningún código QR -->
+       <ion-img src="assets/img/qr-code.png" style="width: 100%;;"></ion-img>
+    </div>
+
+  </div>
+
+  <ion-button expand="block" size="large" shape="round" style=" display: flex; width: 50%; margin: 0 auto; padding-top: 2rem;">
+    Generar Qr
+  </ion-button>
+
+
+
+</ion-content>

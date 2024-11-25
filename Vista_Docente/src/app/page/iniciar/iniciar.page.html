@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar>
+    <!-- Mostrar el menú -->
+    <ion-buttons slot="end">
+      <ion-button (click)="mostrarMenu()">
+        <ion-icon slot="end" name="menu-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <!-- Componente Swiper -->
+  <swiper-container>
+    <swiper-slide>
+
+      <ion-card>
+        <img alt="Silhouette of mountains" src="{{img[0]}}" />
+        <ion-card-header>
+          <ion-card-title> {{materias[0].name}}</ion-card-title>
+          <ion-card-subtitle>{{materias[0].code}}</ion-card-subtitle>
+        </ion-card-header>
+      </ion-card>
+      
+    </swiper-slide>
+    <swiper-slide>
+
+      <ion-card>
+        <img alt="Silhouette of mountains" src="{{img[1]}}" />
+        <ion-card-header>
+          <ion-card-title> {{materias[1].name}}</ion-card-title>
+          <ion-card-subtitle>{{materias[1].code}}</ion-card-subtitle>
+        </ion-card-header>
+      </ion-card>
+
+    </swiper-slide>
+    <swiper-slide>
+
+      <ion-card>
+        <img alt="Silhouette of mountains" src="{{img[2]}}" />
+        <ion-card-header>
+          <ion-card-title> {{materias[2].name}}</ion-card-title>
+          <ion-card-subtitle>{{materias[2].code}}</ion-card-subtitle>
+        </ion-card-header>
+      </ion-card>
+
+    </swiper-slide>
+    
+  </swiper-container>
+  
+
+</ion-content>

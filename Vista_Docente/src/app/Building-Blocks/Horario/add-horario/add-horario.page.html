@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/detalle-asignatura"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Añadir Horario</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="horarioForm">
+    <ion-item>
+      <ion-label>Día</ion-label>
+      <ion-select formControlName="dia" placeholder="Selecciona el día">
+        <ion-select-option value="Lunes">Lunes</ion-select-option>
+        <ion-select-option value="Martes">Martes</ion-select-option>
+        <ion-select-option value="Miércoles">Miércoles</ion-select-option>
+        <ion-select-option value="Jueves">Jueves</ion-select-option>
+        <ion-select-option value="Viernes">Viernes</ion-select-option>
+        <ion-select-option value="Sábado">Sábado</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <!-- Hora Inicio -->
+    <ion-item>
+      <ion-label>Hora Inicio</ion-label>
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <ion-input type="number" placeholder="HH" formControlName="hora_inicio_horas" min="0" max="23" style="width: 50px;"></ion-input>
+        <span>:</span>
+        <ion-input type="number" placeholder="MM" formControlName="hora_inicio_minutos" min="0" max="59" style="width: 50px;"></ion-input>
+      </div>
+    </ion-item>
+
+    <!-- Hora Fin -->
+    <ion-item>
+      <ion-label>Hora Fin</ion-label>
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <ion-input type="number" placeholder="HH" formControlName="hora_fin_horas" min="0" max="23" style="width: 50px;"></ion-input>
+        <span>:</span>
+        <ion-input type="number" placeholder="MM" formControlName="hora_fin_minutos" min="0" max="59" style="width: 50px;"></ion-input>
+      </div>
+    </ion-item>
+
+    <!-- Botones -->
+    <ion-button expand="full" (click)="agregarHorario()">Añadir Horario</ion-button>
+    <ion-button expand="full" color="light" (click)="cancelar()">Cancelar</ion-button>
+  </form>
+</ion-content>

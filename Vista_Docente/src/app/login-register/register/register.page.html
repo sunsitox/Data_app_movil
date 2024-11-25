@@ -1,0 +1,100 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" text="" color="dark"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Formulario de Registro usuario -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Registro</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <form [formGroup]="formularioRegistro">
+
+        <ion-item>
+          <ion-input type="text" label="Nombre" formControlName="username" labelPlacement="floating"
+            placeholder="Ingrese su Nombre"></ion-input>
+        </ion-item>
+
+        <div id="alerta" *ngIf="formularioRegistro.get('username')?.invalid && (formularioRegistro.get('username')?.dirty || 
+                    formularioRegistro.get('username')?.touched)">
+            <div id="alerta" *ngIf="formularioRegistro.get('username')?.hasError('required')">
+              *Nombre es obligatorio
+            </div>
+            <div id="alerta" *ngIf="formularioRegistro.get('username')?.hasError('minlength')">
+              *Nombre debe tener mínimo 3 caracteres
+            </div>
+        </div>
+
+        <ion-item>
+          <ion-input type="email" label="E-mail" formControlName="email" labelPlacement="floating"
+            placeholder="Ingrese su E-mail"></ion-input>
+        </ion-item>
+
+        <div id="alerta" *ngIf="formularioRegistro.get('email')?.invalid && (formularioRegistro.get('email')?.dirty || 
+                    formularioRegistro.get('email')?.touched)">
+            <div id="alerta" *ngIf="formularioRegistro.get('email')?.hasError('required')">
+              *Email es obligatorio
+            </div>
+            <div id="alerta" *ngIf="formularioRegistro.get('email')?.hasError('email')">
+              *Formato no válido
+            </div>
+        </div>
+        
+        <ion-item>
+          <ion-input type="text" label="Rut" formControlName="rut" labelPlacement="floating"
+            placeholder="ej: 12.345.678-9"></ion-input>
+        </ion-item>
+
+        <div id="alerta" *ngIf="formularioRegistro.get('rut')?.invalid && (formularioRegistro.get('rut')?.dirty || 
+                    formularioRegistro.get('rut')?.touched)">
+            <div id="alerta" *ngIf="formularioRegistro.get('email')?.hasError('required')">
+              *Rut es obligatorio
+            </div>
+            <div id="alerta" *ngIf="formularioRegistro.get('email')?.hasError('email')">
+              *Formato no válido
+            </div>
+        </div>
+
+        <ion-item>
+          <ion-input type="password" label="Contraseña" formControlName="password" labelPlacement="floating"
+            placeholder="Ingrese su Contraseña"></ion-input>
+        </ion-item>
+
+        <div id="alerta" *ngIf="formularioRegistro.get('password')?.invalid && (formularioRegistro.get('password')?.dirty || 
+                    formularioRegistro.get('password')?.touched)">
+            <div id="alerta" *ngIf="formularioRegistro.get('password')?.hasError('required')">
+              *Contraseña es obligatorio
+            </div>
+            <div id="alerta" *ngIf="formularioRegistro.get('password')?.hasError('pattern')">
+              *Contraseña debe tener mínimo 8 caracteres, una letra y un número
+            </div>
+        </div>
+        
+        <ion-item>
+          <ion-input type="password" label="Confirmar Contraseña" formControlName="confirmacionPassword"
+            labelPlacement="floating" placeholder="Ingrese su Contraseña"></ion-input>
+        </ion-item>
+
+        <div id="alerta" *ngIf="formularioRegistro.get('confirmacionPassword')?.invalid && (formularioRegistro.get('confirmacionPassword')?.dirty || 
+                    formularioRegistro.get('confirmacionPassword')?.touched)">
+            <div id="alerta" *ngIf="formularioRegistro.get('confirmacionPassword')?.hasError('required')">
+              *Confirmar Contraseña es obligatorio
+            </div>
+            <div id="alerta" *ngIf="formularioRegistro.get('confirmacionPassword')?.hasError('pattern')">
+              *La Contraseña no coincide con la anterior
+            </div>
+        </div>
+        <br>
+        <ion-button (click)="CrearUsuario()" [disabled]="!formularioRegistro.valid">Registrarse
+        </ion-button>
+
+      </form>
+
+    </ion-card-content>
+  </ion-card>
+</ion-content>

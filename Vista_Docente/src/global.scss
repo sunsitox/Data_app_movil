@@ -47,3 +47,13 @@ body{
     font-size: 1.6rem;
     line-height: 1.5;
 }
+
+
+ion-content {
+    --background: transparent;
+  }
+  
+  .camera-active {
+    --background: transparent !important;
+    background: transparent !important;
+  }

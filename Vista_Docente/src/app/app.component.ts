@@ -18,26 +18,26 @@ export class AppComponent {
 
   userId: any; //test
 
-  usuarioId:any;
+  usuarioId:any = sessionStorage.getItem('username');;
   opciones: Menu[]=[
     {
       icon:'people',
       name:'Inicio',
-      redirecTo:'/iniciar/'+sessionStorage.getItem('username')
+      redirecTo:'/iniciar/'+this.usuarioId
     },
     {
       icon:'copy',
       name:'Clases',
-      redirecTo:'/materias/'+sessionStorage.getItem('username')
+      redirecTo:'/materias/'+this.usuarioId
     },
     {
       icon:'book-outline',
-      name:'Materias',
+      name:'Asignar Materia',
       redirecTo:'/gestion-asignatura'
     },
     {
       icon:'qr-code-outline',
-      name:'Generar QR',
+      name:'Escanear QR',
       redirecTo:'/qrcode'
     },
   ]
@@ -47,11 +47,18 @@ export class AppComponent {
   ngOnInit() {
     // Captura el parámetro 'id' de la URL
   this.userId = this.route.snapshot.paramMap.get('id') || '';
-  console.log('User ID:', this.userId);
-  // this.usuarioId = this.userId;
-  this.usuarioId = sessionStorage.getItem('username');
+  console.log('User ID:', this.usuarioId);
+  
   }
 
-  
+  obtener(){
+    this.usuarioId = sessionStorage.getItem('username');
+    console.log(this.usuarioId);
+  }
+
+  cerrar(){
+    localStorage.clear();
+    sessionStorage.clear();
+  }
 
 }

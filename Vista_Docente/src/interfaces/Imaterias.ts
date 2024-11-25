@@ -1,6 +1,6 @@
 // Peticiones GET, PUT, DELETE
 export interface IMaterias {
-    id: number;
+    id: string;
     name: string;
     code: string;
     seccion: string;

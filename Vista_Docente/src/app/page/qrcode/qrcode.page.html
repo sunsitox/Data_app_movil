@@ -1,32 +1,26 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/tab-inicial/iniciar"
-      text=""
-      color="dark"></ion-back-button>
+      <ion-back-button defaultHref="/" text="" color="dark"></ion-back-button>
     </ion-buttons>
-
-    <ion-title>Escaner QR</ion-title>
+    <ion-title>Escáner QR</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-
-  <br>
-  <div class="container">
-    
-    <div class="camera-preview">
-      <!-- mensaje para cuando no se detecta ningún código QR -->
-       <ion-img src="assets/img/qr-code.png" style="width: 100%;;"></ion-img>
+<ion-content>
+  <div class="camera-wrapper" [class.hidden]="!isScanning">
+    <div id="camera-preview"></div>
+    <div class="scan-overlay" *ngIf="isScanning">
+      <div class="scan-frame"></div>
     </div>
-
   </div>
 
-  <ion-button expand="block" size="large" shape="round" style=" display: flex; width: 50%; margin: 0 auto; padding-top: 2rem;">
-    Generar Qr
-  </ion-button>
-
-
-
+  <div class="controls">
+    <ion-button expand="block" (click)="startScan()" *ngIf="!isScanning">
+      Iniciar Escaneo
+    </ion-button>
+    <ion-button expand="block" (click)="stopScan()" *ngIf="isScanning" color="danger">
+      Detener Escaneo
+    </ion-button>
+  </div>
 </ion-content>

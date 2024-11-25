@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { AlertController } from '@ionic/angular';
 import { ToastController } from '@ionic/angular';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-login',
@@ -31,7 +32,8 @@ export class LoginPage implements OnInit {
     private router: Router,
     private toast: ToastController,
     private alertcontroller: AlertController,
-    private builder: FormBuilder
+    private builder: FormBuilder,
+    private appComponent: AppComponent
   ) {
     this.formularioLogin = this.builder.group({
       'identifier': new FormControl("", [Validators.required]),  // Puede ser email o username
@@ -116,10 +118,12 @@ export class LoginPage implements OnInit {
   }
 
   private IniciarSesion(usuario: any) {
+    sessionStorage.setItem('id', usuario.id);
     sessionStorage.setItem('username', usuario.username);
     sessionStorage.setItem('password', usuario.password);
     sessionStorage.setItem('ingresado', 'true');
     this.showToast('Sesión Iniciada ' + this.usuario.username);
+    this.appComponent.obtener();
     this.router.navigate([`/iniciar/${usuario.username}`]);
   }
 

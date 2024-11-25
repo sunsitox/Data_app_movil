@@ -1,42 +1,41 @@
 <ion-header>
   <ion-toolbar>
-
-    <!-- mostrar el menu -->
+    <!-- Mostrar el menú -->
     <ion-buttons slot="end">
       <ion-button (click)="mostrarMenu()">
         <ion-icon slot="end" name="menu-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
-
     <ion-title>Materias</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-card (click)="toggleList()">
-    <ion-card-header>
-      <ion-card-title>
-        {{items[0].dia}}
-      </ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      Asistencia 60%
-    </ion-card-content>
-  </ion-card>
-
-  <ion-list *ngIf="isListVisible">
-    <ion-item *ngFor="let item of items">
-
-      <div class="list_datos">
-        <ion-label>{{ item.clase }}</ion-label>
-
-        <ion-label>{{ item.hora}}</ion-label>
-      </div>
-
-    </ion-item>
-  </ion-list>
-
-  
-
-
+  <!-- Recorrer los días -->
+  <ng-container *ngFor="let dia of getDias()">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>{{ dia }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <!-- Recorrer las clases de cada día -->
+          <ion-item *ngFor="let clase of horariosPorDia[dia]">
+            <ion-label>
+              <h3>{{ clase.clase }}</h3>
+              <p>{{ clase.hora }}</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button (click)="tomarMateria()" expand="block" fill="clear" shape="round">
+      +
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

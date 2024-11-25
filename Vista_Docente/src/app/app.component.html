@@ -20,7 +20,8 @@
         </ion-list>
 
         <ion-menu-toggle class="ultimo">
-          <ion-item [routerLink]="['/menu-inicio']" style="--border-color: transparent; --color: red;">
+          <ion-item [routerLink]="['/menu-inicio']" style="--border-color: transparent; --color: red;"
+          (click)="cerrar()">
             <ion-icon size="large" slot="start" name="log-out-outline" color="red"></ion-icon>
             <ion-label>cerrar sesión</ion-label>
           </ion-item>

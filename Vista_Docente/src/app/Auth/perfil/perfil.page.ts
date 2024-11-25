@@ -10,7 +10,7 @@ import { AuthService } from '../../services/auth.service';
 })
 export class PerfilPage implements OnInit {
 
-  usuario: any; // Cambié el nombre a 'usuario' para que sea plural y consistente.
+  usuario: any = ""; // Cambié el nombre a 'usuario' para que sea plural y consistente.
 
   userId: string = " "; //test
   constructor(private router: Router, 
@@ -29,11 +29,12 @@ export class PerfilPage implements OnInit {
   obtenerPerfil(){
 
     this.auth.GetUserByUsername(this.userId).subscribe(
-      (data) => {
-        console.log(data);
+      (data:any) => {
+        console.log("Datos usuario: ", data);
         this.usuario = data;
       })
   }
+
 
   volver() {
     this.router.navigate(['/iniciar', this.userId]);

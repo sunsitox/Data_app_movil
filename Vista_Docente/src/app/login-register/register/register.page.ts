@@ -19,6 +19,7 @@ export class RegisterPage implements OnInit {
         password: "",
         email: "",
         rut: "",
+        clases: [],
         isactive: false,
         isAlumno: false,
         isProfesor:false

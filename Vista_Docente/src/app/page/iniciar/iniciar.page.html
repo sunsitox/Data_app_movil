@@ -11,12 +11,29 @@
 
 <ion-content>
 
-  <!-- Componente Swiper -->
+  <ion-list *ngFor="let materia of user_data">
+    <ion-card>
+      <img alt="Silhouette of mountains" src="{{img[0]}}" /> 
+     <ion-card-header>
+       <ion-card-title> {{materia.name}}</ion-card-title>
+       <ion-card-subtitle>{{materia.code}}</ion-card-subtitle>
+     </ion-card-header>
+   </ion-card>
+    
+  </ion-list>
+  
+
+</ion-content>
+
+<!-- 
+<ion-content>
+
+   Componente Swiper 
   <swiper-container>
     <swiper-slide>
 
       <ion-card>
-        <img alt="Silhouette of mountains" src="{{img[0]}}" />
+         <img alt="Silhouette of mountains" src="{{img[0]}}" /> 
         <ion-card-header>
           <ion-card-title> {{materias[0].name}}</ion-card-title>
           <ion-card-subtitle>{{materias[0].code}}</ion-card-subtitle>
@@ -27,7 +44,7 @@
     <swiper-slide>
 
       <ion-card>
-        <img alt="Silhouette of mountains" src="{{img[1]}}" />
+         <img alt="Silhouette of mountains" src="{{img[1]}}" /> 
         <ion-card-header>
           <ion-card-title> {{materias[1].name}}</ion-card-title>
           <ion-card-subtitle>{{materias[1].code}}</ion-card-subtitle>
@@ -38,7 +55,7 @@
     <swiper-slide>
 
       <ion-card>
-        <img alt="Silhouette of mountains" src="{{img[2]}}" />
+         <img alt="Silhouette of mountains" src="{{img[2]}}" /> 
         <ion-card-header>
           <ion-card-title> {{materias[2].name}}</ion-card-title>
           <ion-card-subtitle>{{materias[2].code}}</ion-card-subtitle>
@@ -50,4 +67,4 @@
   </swiper-container>
   
 
-</ion-content>
+</ion-content> -->

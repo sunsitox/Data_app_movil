@@ -1,0 +1,27 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>tomar_materia</ion-title>
+
+    <ion-buttons slot="start">
+      <ion-back-button (click)="volver()" text="" color="dark"></ion-back-button>
+
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <ion-item *ngFor="let m of materias">
+
+    <div>
+      <ion-card button (click)="asignarMateria(m)">
+        <ion-card-title>{{m.name}}</ion-card-title>
+        <ion-card-subtitle>{{m.code}} {{m.seccion}}</ion-card-subtitle>
+      </ion-card>
+    </div>
+
+  </ion-item>
+
+
+
+</ion-content>

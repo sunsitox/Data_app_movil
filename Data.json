@@ -116,19 +116,18 @@
       "isProfesor": true
     }
   ],
-  "Qr": [],
-  "resp": [
+  "Qr": [
     {
-      "id": "08b5",
-      "username": "fdw",
-      "password": "1111pppp",
-      "email": "h.ww@g.vl",
-      "rut": "12.765.564-k",
-      "img": "assets/img/users/images.jpg",
-      "clases": [],
-      "isactive": true,
-      "isAlumno": false,
-      "isProfesor": true
+      "id": "cds",
+      "clase": "Física II",
+      "code": "FIS201",
+      "seccion": "B",
+      "profesor": "",
+      "alumno": "",
+      "fecha_generacion": "",
+      "hora_generacion": "",
+      "hora_validacion": "",
+      "estado": false
     }
   ]
 }

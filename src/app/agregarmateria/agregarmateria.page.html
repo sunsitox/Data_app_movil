@@ -1,0 +1,23 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>agregar materia</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">agregarmateria</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- formulario crear materia -->
+    <form>
+      <ion-item>
+        <ion-input type="text" name="txtMateria" [(ngModel)]="newMateria.name" label="Nombre de la materia" placeholder="Ingrese el nombre de la materia" labelPlacement="floating" required></ion-input>
+      </ion-item>
+
+      <ion-button (click)="CrearMateria()" expand="block" color="success">Agregar Materia</ion-button>
+    </form>
+
+</ion-content>

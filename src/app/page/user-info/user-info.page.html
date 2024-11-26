@@ -1,0 +1,59 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Perfil de Usuario</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" text="" color="dark"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <div class="center__icon">
+    <ion-icon slot="center" name="person-circle-outline"></ion-icon>
+    <h3>Nombre del Usuario</h3>
+  </div>
+
+  <ion-card>
+
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <p><strong>Nombre: </strong>Usuario</p>
+          </ion-col>
+          <p><strong>Apellido: </strong>Usuario_m_p</p>
+        </ion-row>
+      </ion-grid>
+
+      <ion-list>
+        <ion-list-header>
+          <ion-label>Datos</ion-label>
+        </ion-list-header>
+
+        <ion-item>
+          <ion-label>Correo:</ion-label>
+          <p>Correo&#64;correo.cl</p>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Teléfono:</ion-label>
+          <p>+563456789</p>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>RUT:</ion-label>
+          <p>999999999-k</p>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Carrera:</ion-label>
+          <p>Informatica</p>
+        </ion-item>
+      </ion-list>
+
+
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

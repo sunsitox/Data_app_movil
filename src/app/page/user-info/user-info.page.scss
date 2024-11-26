@@ -1,0 +1,11 @@
+.center__icon {
+    display: flex;
+    flex-direction: column;
+    // text-align: center !important;
+    align-items: center !important;
+
+}
+
+ion-icon {
+    font-size: 192px; // 64px * 3
+}

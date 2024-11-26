@@ -28,6 +28,10 @@ export class QrService {
     return this.httpClient.get<Qr>(`${environment.apiUrl}/qr/${qrId}`);
   }
 
+  getQrs(){
+    return this.httpClient.get<Qr[]>(`${environment.apiUrl}/qr`)
+  }
+
   // delete qr
   DeleteQr(qrId: string): Observable<void> {
     return this.httpClient.delete<void>(`${environment.apiUrl}/qr/${qrId}`);

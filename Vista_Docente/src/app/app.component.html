@@ -2,9 +2,19 @@
   <ion-menu contentId="main" menuId="first" side="start" type="overlay">
     <ion-header mode="md">
       <ion-toolbar color="primary" mode="md">
-        <ion-icon size="large" slot="start" [routerLink]="['/perfil', usuarioId]" name="person-circle-outline"
-          style="padding-left: 10px;"></ion-icon>
-        <ion-title>Usuario</ion-title>
+        <!-- Mostrar ion-icon si no hay imagen -->
+        <ion-icon *ngIf="!img" size="large" slot="start" [routerLink]="['/perfil', usuarioId]"
+          name="person-circle-outline" style="padding-left: 10px;">
+        </ion-icon>
+
+        <!-- Mostrar img si hay una imagen definida -->
+        <div *ngIf="img" size="large" slot="start" [routerLink]="['/perfil', usuarioId]"
+          style="padding-left: 10px; width: 32px; height: 32px; ">
+
+          <img style="border-radius: 50px;" alt="icono usuario" [src]="img" />
+        </div>
+
+        <ion-title>{{name}}</ion-title>
       </ion-toolbar>
     </ion-header>
 

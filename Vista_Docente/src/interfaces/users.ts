@@ -4,6 +4,7 @@ export interface Users{
     password:string;
     email:string;
     rut:string;
+    img:string;
     clases:any[];
     isactive:boolean;
     isAlumno:boolean;
@@ -15,6 +16,7 @@ export interface UserNuevo{
     password:string;
     email:string;
     rut:string;
+    img:string;
     clases:any[];
     isactive:boolean;
     isAlumno:boolean;

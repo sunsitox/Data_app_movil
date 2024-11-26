@@ -30,6 +30,7 @@ export class MateriasPage implements OnInit {
     private router: Router
   ) { }
 
+  
   ngOnInit() {
     // Captura el parámetro 'id' del sessionStorage
     this.userId = sessionStorage.getItem('username') || '';
@@ -51,6 +52,7 @@ export class MateriasPage implements OnInit {
       );
     }
   }
+
 
   filtrarMaterias() {
     this.materias.GetMaterias().subscribe(

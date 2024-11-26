@@ -13,7 +13,7 @@ export class AuthService {
 
   constructor(private httpClient: HttpClient) { }
 
-  GetUsuarios(): Observable<Users[]>{
+  GetUsuarios(): Observable<Users[]> {
     return this.httpClient.get<Users[]>(`${environment.apiUrl}/usuarios`)
   }
 
@@ -39,7 +39,11 @@ export class AuthService {
   UpdateUsuario(userId: string, updatedUser: Users): Observable<Users> {
     return this.httpClient.put<Users>(`${environment.apiUrl}/usuarios/${userId}`, updatedUser);
   }
-  
+
+  UpdateUsuarioPerfil(userId: string, updatedFields: Partial<Users>): Observable<any> {
+    return this.httpClient.patch(`${environment.apiUrl}/usuarios/${userId}`, updatedFields);
+  }
+
   UpdateUsuarioClases(addClase: Iclase, userId: any): Observable<Users> {
     // Obtenemos el usuario actual para modificar su lista de clases
     return this.httpClient.get<Users>(`${environment.apiUrl}/usuarios/${userId}`).pipe(
@@ -48,13 +52,13 @@ export class AuthService {
         if (!usuario.clases) {
           usuario.clases = [];
         }
-  
+
         // Añadimos la nueva clase al array de clases
         usuario.clases.push(addClase);
-  
+
         // Actualizamos solo las clases del usuario
         const payload = { clases: usuario.clases };
-  
+
         // Usamos PATCH para actualizar únicamente el campo 'clases'
         return this.httpClient.patch<Users>(`${environment.apiUrl}/usuarios/${userId}`, payload);
       })
@@ -65,5 +69,14 @@ export class AuthService {
     const loginEndpoint = isEmail ? `usuarios?email=${identifier}` : `usuarios?username=${identifier}`;
     return this.httpClient.get<any>(`${environment.apiUrl}/${loginEndpoint}&password=${password}`);
   }
+
+  
+  
+  saveImageToDatabase(userId: any, base64Image: string): Observable<any> {
+    const imageData = { img: base64Image };
+  
+    return this.httpClient.patch(`${environment.apiUrl}/usuarios/${userId}`, imageData);
+  }
+  
 
 }

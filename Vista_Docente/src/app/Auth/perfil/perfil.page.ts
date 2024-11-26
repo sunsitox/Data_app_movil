@@ -35,6 +35,9 @@ export class PerfilPage implements OnInit {
       })
   }
 
+  modificarPerfil(){
+    this.router.navigate(['/modif-perfil', this.userId]);
+  }
 
   volver() {
     this.router.navigate(['/iniciar', this.userId]);

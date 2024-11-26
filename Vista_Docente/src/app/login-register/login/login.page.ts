@@ -16,9 +16,10 @@ export class LoginPage implements OnInit {
   userdata: any;
 
   usuario = {
-    id: 0,
+    id: "",
     username: "",
     email: "",
+    rut: "",
     password: "",
     isactive: false,
     isAlumno: false,
@@ -77,6 +78,7 @@ export class LoginPage implements OnInit {
       username: this.userdata[0].username,
       password: this.userdata[0].password,
       email: this.userdata[0].email,
+      rut: this.userdata[0].rut,
       isactive: this.userdata[0].isactive,
       isAlumno: this.userdata[0].isAlumno,
       isProfesor: this.userdata[0].isProfesor
@@ -121,6 +123,8 @@ export class LoginPage implements OnInit {
     sessionStorage.setItem('id', usuario.id);
     sessionStorage.setItem('username', usuario.username);
     sessionStorage.setItem('password', usuario.password);
+    sessionStorage.setItem('email', usuario.email);
+    sessionStorage.setItem('rut', usuario.rut);
     sessionStorage.setItem('ingresado', 'true');
     this.showToast('Sesión Iniciada ' + this.usuario.username);
     this.appComponent.obtener();

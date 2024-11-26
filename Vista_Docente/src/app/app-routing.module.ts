@@ -81,6 +81,10 @@ const routes: Routes = [
         loadChildren: () => import('./page/tomar-materia/tomar-materia.module').then(m => m.TomarMateriaPageModule)
       }
     ]
+  },
+  {
+    path: 'modif-perfil/:id',
+    loadChildren: () => import('./Auth/modif-perfil/modif-perfil.module').then( m => m.ModifPerfilPageModule)
   }
 ];
 

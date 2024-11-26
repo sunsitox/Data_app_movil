@@ -17,6 +17,8 @@ interface Menu{
 export class AppComponent {
 
   userId: any; //test
+  img:any;
+  name:any;
 
   usuarioId:any = sessionStorage.getItem('username');;
   opciones: Menu[]=[
@@ -48,6 +50,14 @@ export class AppComponent {
     // Captura el parámetro 'id' de la URL
   this.userId = this.route.snapshot.paramMap.get('id') || '';
   console.log('User ID:', this.usuarioId);
+  this.authservice.GetUsuarioById(sessionStorage.getItem('id')).subscribe(
+    (data:any) => {
+      console.log("Datos usuario: ", data.img);      
+      this.img = data.img;
+      this.name = data.username;
+    }
+  )
+
   
   }
 

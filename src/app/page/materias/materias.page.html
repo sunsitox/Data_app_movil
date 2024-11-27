@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar>
+
+    <!-- mostrar el menu -->
+    <ion-buttons slot="end">
+      <ion-button (click)="mostrarMenu()">
+        <ion-icon slot="end" name="menu-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title>Materias</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card (click)="toggleList()">
+    <ion-card-header>
+      <ion-card-title>
+        Clase 1
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      Asistencia 60%
+    </ion-card-content>
+  </ion-card>
+
+  <ion-list *ngIf="isListVisible">
+    <ion-item *ngFor="let item of items">
+
+      <div class="list_datos">
+        <ion-label>{{ item.fecha }}</ion-label>
+
+        <ion-label>{{ item.asistencia}}</ion-label>
+      </div>
+
+    </ion-item>
+  </ion-list>
+  <ion-button [routerLink]="['../../agregarmateria']" expand="block" fill="outline" color="secondary" shape="default">
+    +
+  </ion-button>
+
+  
+
+
+</ion-content>

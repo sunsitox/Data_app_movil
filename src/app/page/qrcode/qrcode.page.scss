@@ -1,0 +1,21 @@
+.camera-preview {
+    position: relative;
+    width: 23rem;
+    height: 23rem; /* Ajusta el tamaño según tus necesidades */
+    border: 2px solid #FF0000; /* Borde rojo para el recuadro */
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5); /* Opcional: sombra para el recuadro */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #000; /* Fondo negro para simular la vista de la cámara */
+    color: white; /* Color del texto dentro del recuadro */
+    font-size: 1.2em; /* Tamaño del texto */
+    text-align: center; /* Centra el texto */
+  }
+
+.container {
+    display: flex;
+    justify-content: center;
+
+    
+}

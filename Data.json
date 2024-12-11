@@ -118,6 +118,10 @@
     }
   ],
   "Qr": [],
-  "password-reset-request":[],
-  "password-reset":[]
+  "password-reset-request": [
+    {
+      "email": "usuario@ejemplo.com"
+    }
+  ],
+  "password-reset": []
 }

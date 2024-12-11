@@ -102,8 +102,9 @@
       "id": "14fa",
       "username": "pedro",
       "password": "12345ooo",
-      "email": "g@gmail.com",
+      "email": "jo.moncadag@duocuc.cl",
       "rut": "55.333.555-3",
+      "img": "",
       "clases": [
         {
           "name": "Física II",
@@ -116,18 +117,7 @@
       "isProfesor": true
     }
   ],
-  "Qr": [
-    {
-      "id": "cds",
-      "clase": "Física II",
-      "code": "FIS201",
-      "seccion": "B",
-      "profesor": "",
-      "alumno": "",
-      "fecha_generacion": "",
-      "hora_generacion": "",
-      "hora_validacion": "",
-      "estado": false
-    }
-  ]
+  "Qr": [],
+  "password-reset-request":[],
+  "password-reset":[]
 }

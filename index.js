@@ -1,9 +1,18 @@
 const jsonServer = require("json-server");
-const enviarCorreo = require("./mailer"); // Importa la función de correo
+const cors = require("cors"); // Importa CORS
+const enviarCorreo = require("./mailer");
+
 const server = jsonServer.create();
 const router = jsonServer.router("Data.json");
 const middlewares = jsonServer.defaults();
 const port = process.env.PORT || 10000;
+
+// Configura CORS
+server.use(cors({
+  origin: "http://localhost:8100", // Reemplaza con el dominio de tu app Ionic
+  methods: ["GET", "POST", "PUT", "DELETE"], // Métodos permitidos
+  credentials: true, // Permitir cookies si es necesario
+}));
 
 server.use(middlewares);
 
@@ -11,10 +20,7 @@ server.use(middlewares);
 server.post("/password-reset-request", async (req, res) => {
   const email = req.body.email;
 
-  // Genera un token de recuperación (aquí es un ejemplo básico)
   const token = Math.random().toString(36).substr(2);
-
-  // Enlace para el correo
   const resetLink = `https://tu-app-ionic/reset-password?token=${token}`;
 
   const asunto = "Recuperación de Contraseña";
@@ -32,7 +38,6 @@ server.post("/password-reset-request", async (req, res) => {
   }
 });
 
-// Inicia el servidor
 server.use(router);
 server.listen(port, () => {
   console.log(`Servidor escuchando en el puerto ${port}`);

@@ -1,5 +1,5 @@
 const jsonServer = require("json-server");
-const cors = require("cors"); // Importa CORS
+const cors = require("cors");
 const enviarCorreo = require("./mailer");
 
 const server = jsonServer.create();
@@ -9,10 +9,14 @@ const port = process.env.PORT || 10000;
 
 // Configura CORS
 server.use(cors({
-  origin: "http://localhost:8100", // Reemplaza con el dominio de tu app Ionic
-  methods: ["GET", "POST", "PUT", "DELETE"], // Métodos permitidos
-  credentials: true, // Permitir cookies si es necesario
+  origin: "*", // Cambia "*" por el dominio específico en producción
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Métodos permitidos
+  allowedHeaders: ["Content-Type", "Authorization"], // Cabeceras permitidas
+  credentials: true, // Si usas cookies o tokens
 }));
+
+// Manejo de solicitudes OPTIONS (preflight)
+server.options("*", cors()); // Responde a todas las solicitudes OPTIONS
 
 server.use(middlewares);
 

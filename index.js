@@ -38,7 +38,7 @@ server.post("/password-reset-request", async (req, res) => {
 
   // Generar un token único
   const token = Math.random().toString(36).substr(2);
-  const resetLink = `https://tu-app-ionic/reset-password?token=${token}`;
+  const resetLink = `http://localhost:8100/reset-password?token=${token}`;
 
   // Configurar el correo
   const asunto = "Recuperación de Contraseña";

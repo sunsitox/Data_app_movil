@@ -25,11 +25,11 @@ async function guardarDatos(data) {
     const existingData = await jsonFile.readFile(filePath);
     console.log("Data leída desde JSON antes de guardar:", existingData); // LOG
 
-    if (!existingData.passwordResetRequests) {
-      existingData.passwordResetRequests = [];
+    if (!existingData.passwordResetRequest) {
+      existingData.passwordResetRequest = [];
     }
 
-    const isDuplicate = existingData.passwordResetRequests.some(
+    const isDuplicate = existingData.passwordResetRequest.some(
       (entry) => entry.email === data.email && entry.isValid
     );
 
@@ -37,7 +37,7 @@ async function guardarDatos(data) {
       throw new Error("Ya existe una solicitud activa para este correo.");
     }
 
-    existingData.passwordResetRequests.push(data);
+    existingData.passwordResetRequest.push(data);
 
     await jsonFile.writeFile(filePath, existingData, { spaces: 2 });
     console.log("Datos escritos exitosamente en JSON:", existingData); // LOG

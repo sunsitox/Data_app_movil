@@ -1,10 +1,10 @@
 const jsonServer = require("json-server");
 const cors = require("cors");
-const bodyParser = require("body-parser"); // Añadido para parsear el cuerpo de las solicitudes
+const bodyParser = require("body-parser");
 const enviarCorreo = require("./mailer");
 const jsonFile = require("jsonfile");
 const path = require("path");
-require("dotenv").config(); // Carga las variables del .env
+require("dotenv").config();
 
 const server = jsonServer.create();
 const router = jsonServer.router("Data.json");
@@ -18,7 +18,7 @@ const filePath = path.join(__dirname, "Data.json");
 server.use(
   cors({
     origin: [
-      "https://proyecto-mobil-entrega-3-1.onrender.com/", // Tu dominio en Render
+      "https://proyecto-mobil-entrega-3-1.onrender.com", // Tu dominio en Render
       "http://localhost:8100", // Si usas Ionic serve localmente
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
@@ -40,12 +40,12 @@ async function guardarDatos(data) {
   try {
     const existingData = await jsonFile.readFile(filePath);
 
-    if (!existingData.passwordResetRequests) {
-      existingData.passwordResetRequests = [];
+    if (!existingData.passwordResetRequest) {
+      existingData.passwordResetRequest = [];
     }
 
-    // Verifica si el correo ya tiene un token válido
-    const isDuplicate = existingData.passwordResetRequests.some(
+    // Verifica duplicados
+    const isDuplicate = existingData.passwordResetRequest.some(
       (entry) => entry.email === data.email && entry.isValid
     );
 
@@ -53,18 +53,20 @@ async function guardarDatos(data) {
       throw new Error("Ya existe una solicitud activa para este correo.");
     }
 
-    // Agrega la solicitud de restablecimiento
-    existingData.passwordResetRequests.push(data);
+    // Agrega los datos nuevos
+    existingData.passwordResetRequest.push(data);
 
+    // Escribe en el archivo JSON
     await jsonFile.writeFile(filePath, existingData, { spaces: 2 });
-    console.log("Datos guardados exitosamente en Data.json");
+    console.log("Datos actualizados en Data.json:");
+    console.log(existingData);
   } catch (error) {
-    console.error("Error al guardar datos en Data.json:", error.message);
-    throw error;
+    console.error("Error al guardar en Data.json:", error);
+    throw error; // Permite al cliente saber que ocurrió un error.
   }
 }
 
-// Ruta para recuperación de contraseña
+// Ruta para solicitud de recuperación de contraseña
 server.post("/passwordResetRequest", async (req, res) => {
   const email = req.body?.email;
 
@@ -103,7 +105,7 @@ server.post("/passwordResetRequest", async (req, res) => {
     });
   } catch (error) {
     if (error.message === "Ya existe una solicitud activa para este correo.") {
-      res.status(409).json({ error: error.message }); // 409: Conflict
+      res.status(409).json({ error: error.message });
     } else {
       res.status(500).json({ error: "Error interno al procesar la solicitud." });
     }

@@ -40,12 +40,12 @@ async function guardarDatos(data) {
   try {
     const existingData = await jsonFile.readFile(filePath);
 
-    if (!existingData.passwordResetRequests) {
-      existingData.passwordResetRequests = [];
+    if (!existingData.passwordResetRequest) {
+      existingData.passwordResetRequest = [];
     }
 
     // Verifica si el correo ya tiene un token válido
-    const isDuplicate = existingData.passwordResetRequests.some(
+    const isDuplicate = existingData.passwordResetRequest.some(
       (entry) => entry.email === data.email && entry.isValid
     );
 
@@ -54,7 +54,7 @@ async function guardarDatos(data) {
     }
 
     // Agrega la solicitud de restablecimiento
-    existingData.passwordResetRequests.push(data);
+    existingData.passwordResetRequest.push(data);
 
     await jsonFile.writeFile(filePath, existingData, { spaces: 2 });
     console.log("Datos guardados exitosamente en Data.json");

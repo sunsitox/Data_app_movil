@@ -118,7 +118,7 @@
     }
   ],
   "Qr": [],
-  "passwordResetRequest": [
+  "passwordResetRequests": [
   ],
   "password-reset": []
 }

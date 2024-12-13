@@ -1,6 +1,6 @@
 const jsonServer = require("json-server");
 const cors = require("cors");
-const bodyParser = require("body-parser"); // Añadido para parsear el cuerpo de las solicitudes
+const bodyParser = require("body-parser");
 const enviarCorreo = require("./mailer");
 const jsonFile = require("jsonfile");
 const path = require("path");
@@ -44,9 +44,6 @@ async function guardarDatos(data) {
       existingData.passwordResetRequests = [];
     }
 
-    // Depuración: Mostrar datos existentes
-    console.log("Datos existentes antes de agregar la nueva solicitud:", existingData.passwordResetRequests);
-
     // Verifica si el correo ya tiene un token válido
     const isDuplicate = existingData.passwordResetRequests.some(
       (entry) => entry.email === data.email && entry.isValid
@@ -59,9 +56,6 @@ async function guardarDatos(data) {
     // Agrega la solicitud de restablecimiento
     existingData.passwordResetRequests.push(data);
 
-    // Depuración: Confirmar que se está guardando correctamente
-    console.log("Datos a guardar en Data.json:", data);
-    
     await jsonFile.writeFile(filePath, existingData, { spaces: 2 });
     console.log("Datos guardados exitosamente en Data.json");
   } catch (error) {

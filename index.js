@@ -1,9 +1,9 @@
 const jsonServer = require("json-server");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const enviarCorreo = require("./mailer");
 const jsonFile = require("jsonfile");
 const path = require("path");
+const enviarCorreo = require("./mailer");
 require("dotenv").config();
 
 const server = jsonServer.create();
@@ -15,37 +15,21 @@ const port = process.env.PORT || 10000;
 const filePath = path.join(__dirname, "Data.json");
 
 // Configura CORS
-server.use(
-  cors({
-    origin: [
-      "https://proyecto-mobil-entrega-3-1.onrender.com", // Tu dominio en Render
-      "http://localhost:8100", // Si usas Ionic serve localmente
-    ],
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
-
-// Manejo de solicitudes OPTIONS (preflight)
+server.use(cors());
 server.options("*", cors());
-
-// Middleware para manejar JSON
 server.use(bodyParser.json());
-server.use(bodyParser.urlencoded({ extended: true }));
 
-server.use(middlewares);
-
-// Función para guardar datos en el archivo JSON
+// Función para guardar datos en JSON
 async function guardarDatos(data) {
   try {
     const existingData = await jsonFile.readFile(filePath);
+    console.log("Data leída desde JSON antes de guardar:", existingData); // LOG
 
-    if (!existingData.passwordResetRequest) {
-      existingData.passwordResetRequest = [];
+    if (!existingData.passwordResetRequests) {
+      existingData.passwordResetRequests = [];
     }
 
-    // Verifica duplicados
-    const isDuplicate = existingData.passwordResetRequest.some(
+    const isDuplicate = existingData.passwordResetRequests.some(
       (entry) => entry.email === data.email && entry.isValid
     );
 
@@ -53,20 +37,17 @@ async function guardarDatos(data) {
       throw new Error("Ya existe una solicitud activa para este correo.");
     }
 
-    // Agrega los datos nuevos
-    existingData.passwordResetRequest.push(data);
+    existingData.passwordResetRequests.push(data);
 
-    // Escribe en el archivo JSON
     await jsonFile.writeFile(filePath, existingData, { spaces: 2 });
-    console.log("Datos actualizados en Data.json:");
-    console.log(existingData);
+    console.log("Datos escritos exitosamente en JSON:", existingData); // LOG
   } catch (error) {
-    console.error("Error al guardar en Data.json:", error);
-    throw error; // Permite al cliente saber que ocurrió un error.
+    console.error("Error al guardar datos:", error.stack); // LOG
+    throw error;
   }
 }
 
-// Ruta para solicitud de recuperación de contraseña
+// Ruta para manejo de tokens
 server.post("/passwordResetRequest", async (req, res) => {
   const email = req.body?.email;
 
@@ -74,11 +55,9 @@ server.post("/passwordResetRequest", async (req, res) => {
     return res.status(400).json({ error: "Correo electrónico requerido." });
   }
 
-  // Generar un token único
   const token = Math.random().toString(36).substr(2);
   const resetLink = `http://localhost:8100/reset-password?token=${token}`;
 
-  // Configurar el correo
   const asunto = "Recuperación de Contraseña";
   const mensaje = `
     <h1>Recuperación de Contraseña</h1>
@@ -87,35 +66,26 @@ server.post("/passwordResetRequest", async (req, res) => {
   `;
 
   const requestData = {
-    email: email,
-    token: token,
+    email,
+    token,
     isValid: true,
   };
 
   try {
-    // Enviar el correo
-    await enviarCorreo(email, asunto, mensaje);
-
-    // Guardar los datos en el archivo JSON
-    await guardarDatos(requestData);
+    await enviarCorreo(email, asunto, mensaje); // Enviar correo
+    await guardarDatos(requestData); // Guardar JSON
 
     res.status(200).json({
-      message: "Correo enviado con éxito y solicitud registrada.",
-      token: token,
+      message: "Correo enviado y solicitud registrada.",
+      token,
     });
   } catch (error) {
-    if (error.message === "Ya existe una solicitud activa para este correo.") {
-      res.status(409).json({ error: error.message });
-    } else {
-      res.status(500).json({ error: "Error interno al procesar la solicitud." });
-    }
+    res.status(500).json({ error: "Error interno al procesar la solicitud." });
   }
 });
 
-// Usar las rutas de JSON Server
 server.use(router);
 
-// Iniciar el servidor
 server.listen(port, () => {
-  console.log(`Servidor escuchando en el puerto ${port}`);
+  console.log(`Servidor corriendo en el puerto ${port}`);
 });

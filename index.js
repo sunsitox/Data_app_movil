@@ -18,7 +18,7 @@ const filePath = path.join(__dirname, "Data.json");
 server.use(
   cors({
     origin: [
-      "https://proyecto-mobil-entrega-3.onrender.com", // Tu dominio en Render
+      "https://proyecto-mobil-entrega-3-1.onrender.com/", // Tu dominio en Render
       "http://localhost:8100", // Si usas Ionic serve localmente
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],

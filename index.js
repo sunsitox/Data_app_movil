@@ -80,10 +80,10 @@ server.post("/passwordResetRequest", async (req, res) => {
 
   // Configurar el correo
   const asunto = "Recuperación de Contraseña";
-  const mensaje = 
+  const mensaje = `
     <h1>Recuperación de Contraseña</h1>
     <p>Haz clic en el siguiente enlace para restablecer tu contraseña:</p>
-    <a href="${resetLink}">Restablecer Contraseña</a>
+    <a href="${resetLink}">Restablecer Contraseña</a>`
   ;
 
   const requestData = {

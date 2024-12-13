@@ -1,10 +1,10 @@
 const jsonServer = require("json-server");
 const cors = require("cors");
-const bodyParser = require("body-parser"); // Añadido para parsear el cuerpo de las solicitudes
+const bodyParser = require("body-parser");
 const enviarCorreo = require("./mailer");
 const jsonFile = require("jsonfile");
 const path = require("path");
-require("dotenv").config(); // Carga las variables del .env
+require("dotenv").config();
 
 const server = jsonServer.create();
 const router = jsonServer.router("Data.json");
@@ -38,13 +38,15 @@ server.use(middlewares);
 // Función para guardar datos en el archivo JSON
 async function guardarDatos(data) {
   try {
+    // Leer los datos existentes
     const existingData = await jsonFile.readFile(filePath);
 
+    // Crear la propiedad `passwordResetRequest` si no existe
     if (!existingData.passwordResetRequest) {
       existingData.passwordResetRequest = [];
     }
 
-    // Verifica si el correo ya tiene un token válido
+    // Verificar duplicados
     const isDuplicate = existingData.passwordResetRequest.some(
       (entry) => entry.email === data.email && entry.isValid
     );
@@ -53,9 +55,10 @@ async function guardarDatos(data) {
       throw new Error("Ya existe una solicitud activa para este correo.");
     }
 
-    // Agrega la solicitud de restablecimiento
+    // Agregar el nuevo dato al arreglo
     existingData.passwordResetRequest.push(data);
 
+    // Guardar nuevamente el archivo
     await jsonFile.writeFile(filePath, existingData, { spaces: 2 });
     console.log("Datos guardados exitosamente en Data.json");
   } catch (error) {
@@ -64,7 +67,7 @@ async function guardarDatos(data) {
   }
 }
 
-// Ruta para recuperación de contraseña
+// Ruta para solicitud de recuperación de contraseña
 server.post("/passwordResetRequest", async (req, res) => {
   const email = req.body?.email;
 
@@ -103,7 +106,7 @@ server.post("/passwordResetRequest", async (req, res) => {
     });
   } catch (error) {
     if (error.message === "Ya existe una solicitud activa para este correo.") {
-      res.status(409).json({ error: error.message }); // 409: Conflict
+      res.status(409).json({ error: error.message });
     } else {
       res.status(500).json({ error: "Error interno al procesar la solicitud." });
     }

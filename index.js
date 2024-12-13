@@ -38,24 +38,13 @@ server.use(middlewares);
 // Función para guardar datos en el archivo JSON
 async function guardarDatos(data) {
   try {
-    // Leer los datos existentes
-    let existingData;
+    const existingData = await jsonFile.readFile(filePath);
 
-    // Verifica si el archivo existe y tiene un formato válido
-    try {
-      existingData = await jsonFile.readFile(filePath);
-    } catch (err) {
-      // Si no existe, inicializa un objeto vacío
-      console.warn("Archivo Data.json no encontrado o está vacío. Creando uno nuevo.");
-      existingData = {};
-    }
-
-    // Inicializa `passwordResetRequest` si no existe
-    if (!Array.isArray(existingData.passwordResetRequest)) {
+    if (!existingData.passwordResetRequest) {
       existingData.passwordResetRequest = [];
     }
 
-    // Verifica si el correo ya tiene un token válido
+    // Verifica duplicados
     const isDuplicate = existingData.passwordResetRequest.some(
       (entry) => entry.email === data.email && entry.isValid
     );
@@ -64,15 +53,16 @@ async function guardarDatos(data) {
       throw new Error("Ya existe una solicitud activa para este correo.");
     }
 
-    // Agrega la solicitud de restablecimiento
+    // Agrega los datos nuevos
     existingData.passwordResetRequest.push(data);
 
-    // Escribe los datos de nuevo en el archivo
+    // Escribe en el archivo JSON
     await jsonFile.writeFile(filePath, existingData, { spaces: 2 });
-    console.log("Datos guardados exitosamente en Data.json");
+    console.log("Datos actualizados en Data.json:");
+    console.log(existingData);
   } catch (error) {
-    console.error("Error al guardar datos en Data.json:", error.message);
-    throw error;
+    console.error("Error al guardar en Data.json:", error);
+    throw error; // Permite al cliente saber que ocurrió un error.
   }
 }
 

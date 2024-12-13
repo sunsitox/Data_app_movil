@@ -39,14 +39,23 @@ server.use(middlewares);
 async function guardarDatos(data) {
   try {
     // Leer los datos existentes
-    const existingData = await jsonFile.readFile(filePath);
+    let existingData;
 
-    // Crear la propiedad `passwordResetRequest` si no existe
-    if (!existingData.passwordResetRequest) {
+    // Verifica si el archivo existe y tiene un formato válido
+    try {
+      existingData = await jsonFile.readFile(filePath);
+    } catch (err) {
+      // Si no existe, inicializa un objeto vacío
+      console.warn("Archivo Data.json no encontrado o está vacío. Creando uno nuevo.");
+      existingData = {};
+    }
+
+    // Inicializa `passwordResetRequest` si no existe
+    if (!Array.isArray(existingData.passwordResetRequest)) {
       existingData.passwordResetRequest = [];
     }
 
-    // Verificar duplicados
+    // Verifica si el correo ya tiene un token válido
     const isDuplicate = existingData.passwordResetRequest.some(
       (entry) => entry.email === data.email && entry.isValid
     );
@@ -55,10 +64,10 @@ async function guardarDatos(data) {
       throw new Error("Ya existe una solicitud activa para este correo.");
     }
 
-    // Agregar el nuevo dato al arreglo
+    // Agrega la solicitud de restablecimiento
     existingData.passwordResetRequest.push(data);
 
-    // Guardar nuevamente el archivo
+    // Escribe los datos de nuevo en el archivo
     await jsonFile.writeFile(filePath, existingData, { spaces: 2 });
     console.log("Datos guardados exitosamente en Data.json");
   } catch (error) {

@@ -65,7 +65,7 @@ async function guardarDatos(data) {
 }
 
 // Ruta para recuperación de contraseña
-server.post("/password-reset-request", async (req, res) => {
+server.post("/passwordResetRequest", async (req, res) => {
   const email = req.body?.email;
 
   if (!email) {

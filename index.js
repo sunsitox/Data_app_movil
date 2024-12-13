@@ -1,6 +1,6 @@
 const jsonServer = require("json-server");
 const cors = require("cors");
-const bodyParser = require("body-parser");
+const bodyParser = require("body-parser"); // Añadido para parsear el cuerpo de las solicitudes
 const enviarCorreo = require("./mailer");
 const jsonFile = require("jsonfile");
 const path = require("path");

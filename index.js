@@ -37,8 +37,6 @@ server.post("/passwordResetRequest", async (req, res) => {
     // Enviar el correo
     await enviarCorreo(email, asunto, mensaje);
 
-    // Guardar los datos en el archivo JSON
-    await guardarDatos(requestData);
 
     res.status(200).json({
       message: "Correo enviado con éxito y solicitud registrada.",

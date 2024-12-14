@@ -23,6 +23,12 @@ server.use(
 // Manejo de solicitudes OPTIONS (preflight)
 server.options("*", cors());
 
+// Middleware para manejar JSON
+server.use(bodyParser.json());
+server.use(bodyParser.urlencoded({ extended: true }));
+
+server.use(middlewares);
+
 
 //..
 

@@ -20,6 +20,9 @@ server.use(
   })
 );
 
+// Manejo de solicitudes OPTIONS (preflight)
+server.options("*", cors());
+
 
 //..
 

@@ -83,6 +83,41 @@ server.post("/passwordResetRequest", async (req, res) => {
 });
 
 
+// Agrega esta ruta después de tus otras rutas existentes
+server.post("/tokens", (req, res) => {
+  try {
+    // Lee el archivo JSON actual
+    const data = jsonFile.readFileSync('Data.json');
+    
+    // Si no existe la colección tokens, créala
+    if (!data.tokens) {
+      data.tokens = [];
+    }
+
+    // Verifica si ya existe un token para este email
+    const existingTokenIndex = data.tokens.findIndex(
+      token => token.email === req.body.email
+    );
+
+    if (existingTokenIndex !== -1) {
+      // Actualiza el token existente
+      data.tokens[existingTokenIndex] = req.body;
+    } else {
+      // Agrega un nuevo token
+      data.tokens.push(req.body);
+    }
+
+    // Guarda el archivo JSON actualizado
+    jsonFile.writeFileSync('Data.json', data);
+
+    res.status(201).json(req.body);
+  } catch (error) {
+    console.error('Error al guardar token:', error);
+    res.status(500).json({ error: 'Error al guardar token' });
+  }
+});
+
+
 //..
 
 server.use(middlewares);

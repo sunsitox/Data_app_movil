@@ -36,33 +36,51 @@ server.use(bodyParser.urlencoded({ extended: true }));
 server.use(middlewares);
 
 // Función para guardar datos en el archivo JSON
+const fs = require('fs');
+const filePath = './Data.json'; // Asegúrate de que esta ruta sea correcta.
+
 async function guardarDatos(data) {
   try {
-    const existingData = await jsonFile.readFile(filePath);
+    // Crea el archivo si no existe
+    if (!fs.existsSync(filePath)) {
+      await jsonFile.writeFile(filePath, { passwordResetRequest: [] }, { spaces: 2 });
+    }
+
+    // Leer el archivo
+    let existingData;
+    try {
+      existingData = await jsonFile.readFile(filePath);
+    } catch (err) {
+      if (err.code === 'ENOENT') {
+        existingData = { passwordResetRequest: [] };
+      } else {
+        throw err;
+      }
+    }
 
     if (!existingData.passwordResetRequest) {
       existingData.passwordResetRequest = [];
     }
 
-    // Verifica duplicados
+    // Verificar duplicados
     const isDuplicate = existingData.passwordResetRequest.some(
       (entry) => entry.email === data.email && entry.isValid
     );
 
     if (isDuplicate) {
-      throw new Error("Ya existe una solicitud activa para este correo.");
+      console.warn("Ya existe una solicitud activa para este correo.");
+      return; // Evita agregar duplicados.
     }
 
-    // Agrega los datos nuevos
+    // Agregar datos nuevos
     existingData.passwordResetRequest.push(data);
 
-    // Escribe en el archivo JSON
+    // Escribir en el archivo
     await jsonFile.writeFile(filePath, existingData, { spaces: 2 });
-    console.log("Datos actualizados en Data.json:");
-    console.log(existingData);
+    console.log("Datos actualizados correctamente en Data.json:", existingData);
   } catch (error) {
-    console.error("Error al guardar en Data.json:", error);
-    throw error; // Permite al cliente saber que ocurrió un error.
+    console.error("Error al guardar datos:", error);
+    throw error;
   }
 }
 

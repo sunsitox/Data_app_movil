@@ -2,6 +2,7 @@ const jsonServer = require("json-server");
 const server = jsonServer.create();
 const router = jsonServer.router("Data.json");
 const middlewares = jsonServer.defaults();
+const enviarCorreo = require("./mailer");
 const port = process.env.PORT || 10000;
 
 server.use(middlewares);

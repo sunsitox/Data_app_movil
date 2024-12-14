@@ -1,11 +1,29 @@
 const jsonServer = require("json-server");
+const cors = require("cors");
 const server = jsonServer.create();
 const router = jsonServer.router("Data.json");
 const middlewares = jsonServer.defaults();
 const enviarCorreo = require("./mailer");
 const port = process.env.PORT || 10000;
 
+
+
+// Configura CORS
+server.use(
+  cors({
+    origin: [
+      "https://proyecto-mobil-entrega-3-1.onrender.com", // Tu dominio en Render
+      "http://localhost:8100", // Si usas Ionic serve localmente
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
+
 //..
+
+
 
 // Ruta para solicitud de recuperación de contraseña
 server.post("/passwordResetRequest", async (req, res) => {

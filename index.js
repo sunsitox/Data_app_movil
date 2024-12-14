@@ -37,8 +37,6 @@ server.use(middlewares);
 
 // Función para guardar datos en el archivo JSON
 const fs = require('fs');
-const filePath = './Data.json'; // Asegúrate de que esta ruta sea correcta.
-
 async function guardarDatos(data) {
   try {
     // Crea el archivo si no existe

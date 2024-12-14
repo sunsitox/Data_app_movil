@@ -6,9 +6,8 @@ const middlewares = jsonServer.defaults();
 const enviarCorreo = require("./mailer");
 const port = process.env.PORT || 10000;
 
-
-
 server.use(cors({ origin: 'http://localhost:8100', credentials: true }));
+server.use(jsonServer.bodyParser); // Asegura que req.body funcione correctamente
 
 // Ruta para solicitud de recuperación de contraseña
 server.post("/passwordResetRequest", async (req, res) => {
@@ -18,11 +17,9 @@ server.post("/passwordResetRequest", async (req, res) => {
     return res.status(400).json({ error: "Correo electrónico requerido." });
   }
 
-  // Generar un token único
   const token = Math.random().toString(36).substr(2);
   const resetLink = `https://proyecto-mobil-entrega-3-1.onrender.com/reset-password?token=${token}`;
 
-  // Configurar el correo
   const asunto = "Recuperación de Contraseña";
   const mensaje = `
     <h1>Recuperación de Contraseña</h1>
@@ -31,7 +28,6 @@ server.post("/passwordResetRequest", async (req, res) => {
   ;
 
   try {
-    // Enviar el correo
     await enviarCorreo(email, asunto, mensaje);
 
     res.status(200).json({

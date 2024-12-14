@@ -1,5 +1,5 @@
 const jsonServer = require("json-server");
-const cors = require("cors");
+const cors = require('cors');
 const server = jsonServer.create();
 const router = jsonServer.router("Data.json");
 const middlewares = jsonServer.defaults();
@@ -7,6 +7,8 @@ const enviarCorreo = require("./mailer");
 const port = process.env.PORT || 10000;
 
 
+
+app.use(cors({ origin: 'http://localhost:8100', credentials: true }));
 
 // Ruta para solicitud de recuperación de contraseña
 server.post("/passwordResetRequest", async (req, res) => {

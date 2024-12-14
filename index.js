@@ -8,7 +8,7 @@ const port = process.env.PORT || 10000;
 
 
 
-app.use(cors({ origin: 'http://localhost:8100', credentials: true }));
+server.use(cors({ origin: 'http://localhost:8100', credentials: true }));
 
 // Ruta para solicitud de recuperación de contraseña
 server.post("/passwordResetRequest", async (req, res) => {

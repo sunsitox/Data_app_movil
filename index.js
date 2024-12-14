@@ -1,11 +1,15 @@
 const jsonServer = require("json-server");
 const cors = require("cors");
+const bodyParser = require("body-parser");
+const enviarCorreo = require("./mailer");
+const jsonFile = require("jsonfile");
+const path = require("path");
+require("dotenv").config();
+
 const server = jsonServer.create();
 const router = jsonServer.router("Data.json");
 const middlewares = jsonServer.defaults();
-const enviarCorreo = require("./mailer");
 const port = process.env.PORT || 10000;
-
 
 
 // Configura CORS

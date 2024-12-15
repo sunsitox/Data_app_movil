@@ -14,43 +14,58 @@ const dataFilePath = path.join(__dirname, "Data.json");
 
 // Middleware para parsear el cuerpo de las solicitudes
 server.use(express.json());
-server.use(cors({ origin: "*", credentials: true }));
+server.use(cors({
+  origin: "*", // Cambiar a origen específico en producción
+  credentials: true,
+}));
 
 // Validar existencia de Data.json y crearlo si no existe
 if (!fs.existsSync(dataFilePath)) {
   console.error("Archivo Data.json no encontrado. Creando uno nuevo...");
-  fs.writeFileSync(dataFilePath, JSON.stringify({ passwordRequests: [] }, null, 2));
+  fs.writeFileSync(dataFilePath, JSON.stringify({ passwordRequests: [], usuarios: [] }, null, 2));
 }
 
-
-server.put('/usuarios', async (req, res) => {
-  console.log('PUT /usuarios recibido:', req.body); // Depuración
+// Ruta para actualizar solo la contraseña basado en el correo
+server.put("/usuarios", async (req, res) => {
+  console.log("PUT /usuarios recibido:", req.body); // Depuración
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return res.status(400).json({ error: 'Faltan datos necesarios.' });
+    return res.status(400).json({ error: "Faltan datos necesarios." });
   }
 
-  // Validaciones y lógica para actualizar el usuario basado en `email`
-  const userIndex = usuarios.findIndex(user => user.email === email);
-  if (userIndex === -1) {
-    return res.status(404).json({ error: 'Usuario no encontrado.' });
+  try {
+    // Leer archivo Data.json
+    const data = JSON.parse(fs.readFileSync(dataFilePath, "utf-8"));
+    const usuarios = data.usuarios || [];
+
+    // Buscar usuario por email
+    const userIndex = usuarios.findIndex((user) => user.email === email);
+    if (userIndex === -1) {
+      return res.status(404).json({ error: "Usuario no encontrado." });
+    }
+
+    // Actualizar la contraseña del usuario
+    usuarios[userIndex].password = password;
+    data.usuarios = usuarios;
+
+    // Guardar cambios en Data.json
+    fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2));
+    console.log(`[${new Date().toISOString()}] - Contraseña actualizada para el usuario: ${email}`);
+
+    return res.status(200).json({ message: "Contraseña actualizada con éxito." });
+  } catch (error) {
+    console.error("Error al actualizar la contraseña:", error);
+    return res.status(500).json({ error: "Error interno del servidor." });
   }
-
-  usuarios[userIndex].password = password;
-
-  return res.status(200).json({ message: 'Contraseña actualizada con éxito.' });
 });
-
 
 // Ruta para recuperación de contraseña
 server.post("/passwordResetRequest", async (req, res) => {
   console.log("Datos recibidos del cliente:", req.body); // Log para debug
   const email = req.body?.email;
 
-  // Validación del correo electrónico
   if (!email) {
-    console.error("Error: Falta el correo en el body.");
     return res.status(400).json({ error: "Correo electrónico requerido." });
   }
 
@@ -58,41 +73,18 @@ server.post("/passwordResetRequest", async (req, res) => {
   const isValid = true; // Indicador para comprobar si el token es válido
   const resetLink = `http://localhost:8100/reset-password?email=${encodeURIComponent(email)}&token=${token}&isValid=${isValid}`;
 
-  // Datos a guardar en Data.json
   const dataToSave = { email, token, isValid, createdAt: new Date().toISOString() };
-
-  // Configurar correo
   const asunto = "Recuperación de Contraseña";
-  const mensaje = `
-    <h1>Recuperación de Contraseña</h1>
-    <p>Haz clic en el siguiente enlace para restablecer tu contraseña:</p>
-    <a href="${resetLink}">Restablecer Contraseña</a>`;
+  const mensaje = `<h1>Recuperación de Contraseña</h1><p>Haz clic en el siguiente enlace para restablecer tu contraseña:</p><a href="${resetLink}">Restablecer Contraseña</a>`;
 
   try {
-    // Enviar correo
-    console.log("Intentando enviar correo a:", email);
     await enviarCorreo(email, asunto, mensaje);
     console.log(`[${new Date().toISOString()}] - Correo enviado con éxito a ${email}`);
 
-    // Leer y actualizar Data.json
-    let currentData;
-    try {
-      currentData = JSON.parse(fs.readFileSync(dataFilePath, "utf-8"));
-    } catch (error) {
-      console.error("Error al leer Data.json:", error);
-      return res.status(500).json({ error: "Error al leer archivo de datos." });
-    }
-
+    const currentData = JSON.parse(fs.readFileSync(dataFilePath, "utf-8"));
     currentData.passwordRequests = currentData.passwordRequests || [];
     currentData.passwordRequests.push(dataToSave);
-
-    try {
-      fs.writeFileSync(dataFilePath, JSON.stringify(currentData, null, 2));
-      console.log(`[${new Date().toISOString()}] - Datos guardados en Data.json`);
-    } catch (error) {
-      console.error("Error al escribir en Data.json:", error);
-      return res.status(500).json({ error: "Error al guardar datos." });
-    }
+    fs.writeFileSync(dataFilePath, JSON.stringify(currentData, null, 2));
 
     return res.status(200).json({
       message: "Correo enviado con éxito y solicitud registrada.",

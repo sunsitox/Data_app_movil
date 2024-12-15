@@ -22,6 +22,22 @@ if (!fs.existsSync(dataFilePath)) {
   fs.writeFileSync(dataFilePath, JSON.stringify({ passwordRequests: [] }, null, 2));
 }
 
+
+server.put('/usuarios', async (req, res) => {
+  const { email, password } = req.body;
+
+  // Validaciones y lógica para actualizar el usuario basado en `email`
+  const userIndex = usuarios.findIndex(user => user.email === email);
+  if (userIndex === -1) {
+    return res.status(404).json({ error: 'Usuario no encontrado.' });
+  }
+
+  usuarios[userIndex].password = password;
+
+  return res.status(200).json({ message: 'Contraseña actualizada con éxito.' });
+});
+
+
 // Ruta para recuperación de contraseña
 server.post("/passwordResetRequest", async (req, res) => {
   console.log("Datos recibidos del cliente:", req.body); // Log para debug

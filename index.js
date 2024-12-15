@@ -34,10 +34,11 @@ server.post("/passwordResetRequest", async (req, res) => {
   }
 
   const token = Math.random().toString(36).substr(2);
-  const resetLink = `http://localhost:8100/reset-password?token=${token}`;
+  const isValid = true; // Indicador para comprobar si el token es válido
+  const resetLink = `http://localhost:8100/reset-password?email=${encodeURIComponent(email)}&token=${token}&isValid=${isValid}`;
 
   // Datos a guardar en Data.json
-  const dataToSave = { email, token, createdAt: new Date().toISOString() };
+  const dataToSave = { email, token, isValid, createdAt: new Date().toISOString() };
 
   // Configurar correo
   const asunto = "Recuperación de Contraseña";
@@ -74,7 +75,7 @@ server.post("/passwordResetRequest", async (req, res) => {
 
     return res.status(200).json({
       message: "Correo enviado con éxito y solicitud registrada.",
-      token: token,
+      resetLink: resetLink, // Incluimos el link en la respuesta para facilitar pruebas
     });
   } catch (error) {
     console.error("Error al enviar correo o guardar datos:", error);

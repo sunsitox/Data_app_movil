@@ -34,7 +34,7 @@ server.post("/passwordResetRequest", async (req, res) => {
   }
 
   const token = Math.random().toString(36).substr(2);
-  const resetLink = `https://proyecto-mobil-entrega-3-1.onrender.com/reset-password?token=${token}`;
+  const resetLink = `http://localhost:8100/reset-password?token=${token}`;
 
   // Datos a guardar en Data.json
   const dataToSave = { email, token, createdAt: new Date().toISOString() };

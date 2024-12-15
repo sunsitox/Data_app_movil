@@ -24,7 +24,12 @@ if (!fs.existsSync(dataFilePath)) {
 
 
 server.put('/usuarios', async (req, res) => {
+  console.log('PUT /usuarios recibido:', req.body); // Depuración
   const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ error: 'Faltan datos necesarios.' });
+  }
 
   // Validaciones y lógica para actualizar el usuario basado en `email`
   const userIndex = usuarios.findIndex(user => user.email === email);

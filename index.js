@@ -3,6 +3,7 @@ const jsonServer = require("json-server");
 const cors = require("cors");
 const fs = require("fs");
 const path = require("path");
+const port = process.env.PORT || 10000;
 
 const server = jsonServer.create();
 const router = jsonServer.router("Data.json");

@@ -13,8 +13,6 @@ server.use(cors({ origin: "http://localhost:8100", credentials: true }));
 server.use(jsonServer.bodyParser); // Asegura que req.body funcione correctamente
 
 // Ruta para solicitud de recuperación de contraseña
-const fs = require("fs");
-const path = require("path");
 
 const dataFilePath = path.join(__dirname, "Data.json");
 

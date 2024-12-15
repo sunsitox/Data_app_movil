@@ -1,12 +1,15 @@
+const express = require("express");
 const jsonServer = require("json-server");
-const cors = require('cors');
+const cors = require("cors");
+const fs = require("fs");
+const path = require("path");
+
 const server = jsonServer.create();
 const router = jsonServer.router("Data.json");
 const middlewares = jsonServer.defaults();
-const enviarCorreo = require("./mailer");
-const port = process.env.PORT || 10000;
 
-server.use(cors({ origin: 'http://localhost:8100', credentials: true }));
+server.use(express.json()); // Agrega esto para procesar JSON
+server.use(cors({ origin: "http://localhost:8100", credentials: true }));
 server.use(jsonServer.bodyParser); // Asegura que req.body funcione correctamente
 
 // Ruta para solicitud de recuperación de contraseña
@@ -24,6 +27,8 @@ server.post("/passwordResetRequest", async (req, res) => {
 
   const token = Math.random().toString(36).substr(2);
   const resetLink = `https://proyecto-mobil-entrega-3-1.onrender.com/reset-password?token=${token}`;
+
+  // Datos para guardar
   const dataToSave = { email, token, createdAt: new Date().toISOString() };
 
   // Configurar correo
@@ -34,23 +39,22 @@ server.post("/passwordResetRequest", async (req, res) => {
     <a href="${resetLink}">Restablecer Contraseña</a>`;
 
   try {
-    // Enviar el correo
     await enviarCorreo(email, asunto, mensaje);
 
-    // Leer y guardar en el archivo JSON
+    // Leer el archivo Data.json y agregar el nuevo registro
+    const dataFilePath = path.join(__dirname, "Data.json");
     const currentData = JSON.parse(fs.readFileSync(dataFilePath, "utf-8"));
     currentData.passwordRequests = currentData.passwordRequests || [];
     currentData.passwordRequests.push(dataToSave);
     fs.writeFileSync(dataFilePath, JSON.stringify(currentData, null, 2));
 
-    // Responder con éxito
     return res.status(200).json({
       message: "Correo enviado con éxito y solicitud registrada.",
       token: token,
     });
   } catch (error) {
-    console.error("Error en el envío de correo:", error);
-    res.status(500).json({ error: "Error interno al procesar la solicitud." });
+    console.error("Error al enviar correo o guardar datos:", error);
+    return res.status(500).json({ error: "Error interno del servidor." });
   }
 });
 

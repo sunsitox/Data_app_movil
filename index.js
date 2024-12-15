@@ -14,7 +14,7 @@ const dataFilePath = path.join(__dirname, "Data.json");
 
 // Middleware para parsear el cuerpo de las solicitudes
 server.use(express.json());
-server.use(cors({ origin: "http://localhost:8100", credentials: true }));
+server.use(cors({ origin: "*", credentials: true }));
 
 // Validar existencia de Data.json y crearlo si no existe
 if (!fs.existsSync(dataFilePath)) {

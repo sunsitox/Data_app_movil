@@ -35,14 +35,14 @@ server.put('/usuarios', (req, res) => {
   }
 
   // Leer el archivo de datos y comprobar su formato
-  let usuarios;
+  let data;
   try {
     console.log('Leyendo archivo Data.json...');
-    usuarios = JSON.parse(fs.readFileSync(dataFilePath, 'utf-8'));
+    data = JSON.parse(fs.readFileSync(dataFilePath, 'utf-8'));
     console.log('Archivo leído correctamente.');
 
-    // Comprobamos si los datos leídos son un array
-    if (!Array.isArray(usuarios)) {
+    // Comprobamos si hay un campo "usuarios" y que sea un arreglo
+    if (!Array.isArray(data.usuarios)) {
       throw new Error('El archivo Data.json no contiene un arreglo de usuarios.');
     }
   } catch (error) {
@@ -50,8 +50,8 @@ server.put('/usuarios', (req, res) => {
     return res.status(500).json({ error: 'Error al leer o formatear el archivo de usuarios.' });
   }
 
-  // Buscar el índice del usuario en el array
-  const userIndex = usuarios.findIndex(user => user.email === email);
+  // Buscar el índice del usuario en el array de usuarios
+  const userIndex = data.usuarios.findIndex(user => user.email === email);
   if (userIndex === -1) {
     console.error('Usuario no encontrado:', email);
     return res.status(404).json({ error: 'Usuario no encontrado.' });
@@ -59,12 +59,12 @@ server.put('/usuarios', (req, res) => {
 
   // Actualizar la contraseña
   console.log('Actualizando la contraseña para el usuario:', email);
-  usuarios[userIndex].password = password;
+  data.usuarios[userIndex].password = password;
 
   // Guardar el archivo Data.json con los cambios
   try {
     console.log('Guardando el archivo Data.json...');
-    fs.writeFileSync(dataFilePath, JSON.stringify(usuarios, null, 2));
+    fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2));
     console.log('Archivo guardado correctamente.');
   } catch (error) {
     console.error('Error al guardar el archivo:', error);

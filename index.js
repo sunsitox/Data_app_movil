@@ -26,38 +26,40 @@ if (!fs.existsSync(dataFilePath)) {
 }
 
 // Ruta para actualizar solo la contraseña basado en el correo
-server.put("/usuarios", async (req, res) => {
-  console.log("PUT /usuarios recibido:", req.body); // Depuración
+server.put('/usuarios', (req, res) => {
+  console.log('PUT /usuarios recibido:', req.body); // Depuración
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return res.status(400).json({ error: "Faltan datos necesarios." });
+    return res.status(400).json({ error: 'Faltan datos necesarios.' });
   }
 
+  // Verificar si el archivo de datos existe y cargarlo
+  let usuarios;
   try {
-    // Leer archivo Data.json
-    const data = JSON.parse(fs.readFileSync(dataFilePath, "utf-8"));
-    const usuarios = data.usuarios || [];
-
-    // Buscar usuario por email
-    const userIndex = usuarios.findIndex((user) => user.email === email);
-    if (userIndex === -1) {
-      return res.status(404).json({ error: "Usuario no encontrado." });
-    }
-
-    // Actualizar la contraseña del usuario
-    usuarios[userIndex].password = password;
-    data.usuarios = usuarios;
-
-    // Guardar cambios en Data.json
-    fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2));
-    console.log(`[${new Date().toISOString()}] - Contraseña actualizada para el usuario: ${email}`);
-
-    return res.status(200).json({ message: "Contraseña actualizada con éxito." });
+    usuarios = JSON.parse(fs.readFileSync(dataFilePath, 'utf-8'));
   } catch (error) {
-    console.error("Error al actualizar la contraseña:", error);
-    return res.status(500).json({ error: "Error interno del servidor." });
+    return res.status(500).json({ error: 'Error al leer archivo de usuarios.' });
   }
+
+  // Buscar el índice del usuario en el array
+  const userIndex = usuarios.findIndex(user => user.email === email);
+  if (userIndex === -1) {
+    return res.status(404).json({ error: 'Usuario no encontrado.' });
+  }
+
+  // Actualizar la contraseña
+  usuarios[userIndex].password = password;
+
+  // Guardar el archivo Data.json con los cambios
+  try {
+    fs.writeFileSync(dataFilePath, JSON.stringify(usuarios, null, 2));
+    console.log(`[${new Date().toISOString()}] - Contraseña actualizada para el usuario: ${email}`);
+  } catch (error) {
+    return res.status(500).json({ error: 'Error al guardar los datos en el archivo.' });
+  }
+
+  return res.status(200).json({ message: 'Contraseña actualizada con éxito.' });
 });
 
 // Ruta para recuperación de contraseña

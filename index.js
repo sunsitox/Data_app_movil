@@ -34,15 +34,20 @@ server.put('/usuarios', (req, res) => {
     return res.status(400).json({ error: 'Faltan datos necesarios.' });
   }
 
-  // Verificar si el archivo de datos existe y cargarlo
+  // Leer el archivo de datos y comprobar su formato
   let usuarios;
   try {
     console.log('Leyendo archivo Data.json...');
     usuarios = JSON.parse(fs.readFileSync(dataFilePath, 'utf-8'));
     console.log('Archivo leído correctamente.');
+
+    // Comprobamos si los datos leídos son un array
+    if (!Array.isArray(usuarios)) {
+      throw new Error('El archivo Data.json no contiene un arreglo de usuarios.');
+    }
   } catch (error) {
-    console.error('Error al leer el archivo:', error);
-    return res.status(500).json({ error: 'Error al leer archivo de usuarios.' });
+    console.error('Error al leer o formatear el archivo:', error);
+    return res.status(500).json({ error: 'Error al leer o formatear el archivo de usuarios.' });
   }
 
   // Buscar el índice del usuario en el array

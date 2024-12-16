@@ -75,7 +75,7 @@ server.put('/usuarios', (req, res) => {
   }
 
   return res.status(200).json({ message: 'Contraseña actualizada con éxito.', usuarioActualizado: data.usuarios[userIndex] });
-});});
+});
 
 // Ruta para recuperación de contraseña
 server.post("/passwordResetRequest", async (req, res) => {

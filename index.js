@@ -26,7 +26,56 @@ if (!fs.existsSync(dataFilePath)) {
 }
 
 // Ruta para actualizar solo la contraseña basado en el correo
+server.put('/usuarios', (req, res) => {
+  console.log('PUT /usuarios recibido:', req.body);
+  const { email, password } = req.body;
 
+  if (!email || !password) {
+    return res.status(400).json({ error: 'Faltan datos necesarios.' });
+  }
+
+  // Leer el archivo
+  let data;
+  try {
+    console.log('Leyendo archivo Data.json...');
+    data = JSON.parse(fs.readFileSync(dataFilePath, 'utf-8'));
+    console.log('Archivo leído correctamente.');
+
+    // Validar estructura
+    if (!Array.isArray(data.usuarios)) {
+      console.error('La estructura del archivo no contiene un arreglo "usuarios".');
+      return res.status(500).json({ error: 'Estructura inválida en el archivo de datos.' });
+    }
+  } catch (error) {
+    console.error('Error al leer o procesar el archivo:', error);
+    return res.status(500).json({ error: 'No se pudo leer el archivo de usuarios.' });
+  }
+
+  // Buscar usuario
+  const userIndex = data.usuarios.findIndex(user => user.email === email);
+  if (userIndex === -1) {
+    console.error(`Usuario con email ${email} no encontrado.`);
+    return res.status(404).json({ error: 'Usuario no encontrado.' });
+  }
+
+  // Actualizar datos
+  console.log(`Usuario encontrado:`, data.usuarios[userIndex]);
+  console.log(`Contraseña actual anterior: ${data.usuarios[userIndex].password}`);
+  data.usuarios[userIndex].password = password;
+  console.log(`Contraseña actualizada a: ${data.usuarios[userIndex].password}`);
+
+  // Guardar cambios
+  try {
+    console.log('Guardando cambios en Data.json...');
+    fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2));
+    console.log('Archivo guardado correctamente.');
+  } catch (error) {
+    console.error('Error al guardar los cambios:', error);
+    return res.status(500).json({ error: 'Error al guardar cambios en el archivo.' });
+  }
+
+  return res.status(200).json({ message: 'Contraseña actualizada con éxito.', usuarioActualizado: data.usuarios[userIndex] });
+});
 
 // Ruta para recuperación de contraseña
 server.post("/passwordResetRequest", async (req, res) => {
